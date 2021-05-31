@@ -39,18 +39,23 @@ def webscrape_by_span(url, element, attr, info):
         for word in element.text.rstrip().lstrip().split():
             reslist.append(word)
             MAIN_RESULT.append(word)
-
     return Counter(reslist)
 
 
 def webscraping_results():
-    for element in MAIN_RESULT:
+    #get list from global variable
+    main_result = MAIN_RESULT
+    # remove words from deletion list
+    for element in main_result:
         if element in deletion_list:
-            MAIN_RESULT.remove(element)
+            main_result.remove(element)
+    # return result
+    return [i.lower() for i in main_result if i.lower() not in deletion_list]
 
-    result2 = [i.lower() for i in MAIN_RESULT if i.lower() not in deletion_list]
-    print('words scraped: ', len(result2))
-    # print(Counter(result2))
+def display_results(word_list):
+    # display results
+    print('words scraped: ', len(word_list))
     print('Most common words:')
-    for key, value in Counter(result2).most_common(30):
+    for key, value in Counter(word_list).most_common(30):
         print(f'{key}: {value}')
+
