@@ -2,6 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 from collections import Counter
 from variables import MAIN_RESULT, deletion_list
+import nltk
+from nltk.collocations import *
+
 
 def webscrape_by_link(url, element, attr, info):
     """
@@ -51,6 +54,42 @@ def webscraping_results():
             main_result.remove(element)
     # return result
     return [i.lower() for i in main_result if i.lower() not in deletion_list]
+
+def webscraping_results_nltk_bi():
+    bigram_measures = nltk.collocations.BigramAssocMeasures()
+
+    # change this to read in your data
+    word_list = ' '.join(MAIN_RESULT).lower()
+    print('main_result:', word_list)
+    finder = BigramCollocationFinder.from_words(
+        MAIN_RESULT)
+
+    # only bigrams that appear 1+ times
+    finder.apply_freq_filter(3)
+
+    # return the 10 n-grams with the highest PMI
+    return finder.nbest(bigram_measures.pmi, 10)
+
+def webscraping_results_nltk_tri():
+    """this function gets used word pairs from the list of words"""
+    trigram_measures = nltk.collocations.TrigramAssocMeasures()
+
+    # change this to read in your data
+    word_list = ' '.join(MAIN_RESULT).lower()
+    print('main_result:', word_list)
+    finder = BigramCollocationFinder.from_words(
+        MAIN_RESULT)
+
+    # only bigrams that appear 3+ times
+    finder.apply_freq_filter(2)
+
+    # return the 10 n-grams with the highest PMI
+    nlt_result = finder.nbest(trigram_measures.pmi, 10)
+
+    # return names of 10 articles with the most common word pairs
+
+
+
 
 def display_results(word_list):
     # display results

@@ -1,4 +1,5 @@
-from functions import webscrape_by_link, webscrape_by_span, webscraping_results, display_results
+from functions import webscrape_by_link, webscrape_by_span, webscraping_results, webscraping_results_nltk_bi, \
+    display_results, webscraping_results_nltk_tri
 import collections
 import pandas
 from collections import Counter
@@ -27,20 +28,22 @@ webscrape_by_link('https://tvn24.pl/', 'a', 'class', 'default-teaser__link')
 webscraping_results()
 display_results(webscraping_results())
 
+print('nlt-bi:', webscraping_results_nltk_bi())
+print('nlt-tri:', webscraping_results_nltk_tri())
 word_counter = Counter(webscraping_results()).most_common(10)
-print(word_counter)
 
 
-# # draw a chart
-names = [i[0] for i in word_counter]
-print(names)
 
-values = [i[1] for i in word_counter]
-print(values)
 
-plt.figure(figsize=(9, 3))
 
-plt.subplot(131)
-plt.bar(names, values)
-plt.suptitle('Categorical Plotting')
-plt.show()
+# # # draw a chart
+# names = [i[0] for i in word_counter]
+#
+# values = [i[1] for i in word_counter]
+#
+# plt.figure(figsize=(10, 4))
+#
+# plt.subplot(131)
+# plt.bar(names, values)
+# plt.suptitle('Most common words')
+# plt.show()
